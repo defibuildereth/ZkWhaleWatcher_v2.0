@@ -14,6 +14,234 @@ let pairs = {
         "minSize": 0.000001,
         "minSpread": 0.0005,
         "active": true
+    },
+    "ETH-USDC": {
+        "side": "d",
+        "priceFeedPrimary": "cryptowatch:6631",
+        "priceFeedSecondary": "cryptowatch:588",
+        "slippageRate": 1e-5,
+        "maxSize": 0.12,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "ETH-DAI": {
+        "side": "d",
+        "priceFeedPrimary": "cryptowatch:63533",
+        "priceFeedSecondary": "cryptowatch:588",
+        "slippageRate": 1e-5,
+        "maxSize": 0.12,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "ETH-FRAX": {
+        "side": "d",
+        "priceFeedPrimary": "cryptowatch:6631",
+        "priceFeedSecondary": "cryptowatch:588",
+        "slippageRate": 1e-5,
+        "maxSize": 0.12,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "WBTC-USDT": {
+        "priceFeedPrimary": "cryptowatch:579",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 0.01,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "WBTC-USDC": {
+        "priceFeedPrimary": "cryptowatch:6630",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 0.01,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "WBTC-DAI": {
+        "priceFeedPrimary": "cryptowatch:63532",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 0.01,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "USDC-USDT": {
+        "priceFeedPrimary": "cryptowatch:6636",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-9,
+        "maxSize": 3000,
+        "minSize": 0.000001,
+        "minSpread": 0.0001,
+        "active": true
+    },
+    "DAI-USDT": {
+        "priceFeedPrimary": "cryptowatch:61475",
+        "priceFeedSecondary": "cryptowatch:138169",
+        "slippageRate": 1e-9,
+        "maxSize": 300,
+        "minSize": 0.000001,
+        "minSpread": 0.0001,
+        "active": true
+    },
+    "DAI-USDC": {
+        "priceFeedPrimary": "cryptowatch:136253",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-9,
+        "maxSize": 300,
+        "minSize": 0.000001,
+        "minSpread": 0.0001,
+        "active": true
+    },
+    "ETH-WBTC": {
+        "priceFeedPrimary": "cryptowatch:580",
+        "priceFeedSecondary": "cryptowatch:95",
+        "slippageRate": 1e-4,
+        "maxSize": 0.12,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "LINK-USDC": {
+        "priceFeedPrimary": "cryptowatch:11355",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 11,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "YFI-USDC": {
+        "priceFeedPrimary": "cryptowatch:63516",
+        "priceFeedSecondary": "cryptowatch:137881",
+        "slippageRate": 1e-4,
+        "maxSize": 0.01,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "LUNA-USDC": {
+        "priceFeedPrimary": "cryptowatch:63703",
+        "priceFeedSecondary": "cryptowatch:255538",
+        "slippageRate": 1e-4,
+        "maxSize": 4,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "UNI-USDC": {
+        "priceFeedPrimary": "cryptowatch:65082",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 30,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "AAVE-USDC": {
+        "priceFeedPrimary": "cryptowatch:92863",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 1,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "FTM-USDC": {
+        "priceFeedPrimary": "cryptowatch:60449",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 200,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "SOL-USDC": {
+        "priceFeedPrimary": "cryptowatch:813172",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 4,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "MATIC-USDC": {
+        "priceFeedPrimary": "cryptowatch:789796",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 200,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "FRAX-USDC": {
+        "priceFeedPrimary": "cryptowatch:137609",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-9,
+        "maxSize": 400,
+        "minSize": 0.000001,
+        "minSpread": 0.0001,
+        "active": true
+    },
+    "FRAX-USDT": {
+        "priceFeedPrimary": "cryptowatch:137607",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-9,
+        "maxSize": 400,
+        "minSize": 0.000001,
+        "minSpread": 0.0001,
+        "active": true
+    },
+    "DYDX-ETH": {
+        "priceFeedPrimary": "cryptowatch:2592956",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 70,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "COMP-ETH": {
+        "priceFeedPrimary": "cryptowatch:63268",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 3,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "MKR-ETH": {
+        "priceFeedPrimary": "cryptowatch:59167",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 0.2,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
+    },
+    "AVAX-ETH": {
+        "priceFeedPrimary": "cryptowatch:980555",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 4,
+        "minSize": 0.000001,
+        "minSpread": 0.0005,
+        "active": true
+    },
+    "METIS-ETH": {
+        "priceFeedPrimary": "cryptowatch:739840",
+        "priceFeedSecondary": null,
+        "slippageRate": 1e-4,
+        "maxSize": 2,
+        "minSize": 0.000001,
+        "minSpread": 0.001,
+        "active": true
     }
 }
 
