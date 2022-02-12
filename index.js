@@ -19,7 +19,9 @@ let pairs = {
 
 dotenv.config()
 
-console.log(process.env.WEBSOCKET)
+// console.log(process.env.WEBHOOK)
+
+let webhook = process.env.WEBHOOK
 
 let zigzagws = new WebSocket(process.env.WEBSOCKET)
 
@@ -44,41 +46,46 @@ function onWsClose() {
 async function handleMessage(json) {
     const msg = JSON.parse(json);
     if (msg.op == 'fills') {
-        console.log(msg.args[0][0])
-        getTransactionDetails(msg.args[0][0])
+        // console.log(msg.args[0][0])
+        await getTransactionDetails(msg.args[0][0])
+        .then(res => {
+            parseData(res)
+        })
     }
 }
 
 const getTransactionDetails = async function (tx) {
-        let txHash = tx[7]
+    let txDetails;
+    let txHash = tx[7]
 
-        let tokenString = tx[2].split('-')
+    let tokenString = tx[2].split('-')
 
-        let token;
-        let txType = tx[3]
-        
-        if (txType == 'b') {
-            token = tokenString[0]
-        } else {
-            token = tokenString[1]
-        }
-        // console.log(token)
-        await fetch(`https://api.zksync.io/api/v0.2/tokens/${token}/priceIn/usd`)
-            .then((res) => res.json())
-            .then(data => {
-                // console.log(data)
-                // let decimal = data.result.decimals;
-                let amount = tx[5];
-                let price = data.result.price;
-                // console.log(decimal, amount, price)
-                let txVol = amount * price
-                console.log(txVol)
-            })
-        // return txVol
+    let token;
+    let buySell;
+    let txType = tx[3]
+
+    if (txType == 'b') {
+        token = tokenString[0]
+        buySell = 'Buy'
+    } else {
+        token = tokenString[1]
+        buySell = 'Sell'
     }
 
+    await fetch(`https://api.zksync.io/api/v0.2/tokens/${token}/priceIn/usd`)
+        .then((res) => res.json())
+        .then(data => {
+            let amount = tx[5];
+            let price = data.result.price;
+            let txVol = amount * price
+            txDetails = { size: txVol, hash: txHash, pair: tx[2], type: buySell }
+        })
+    return txDetails
+}
 
-const parseData = async function (pair, size, txhash) {
+
+const parseData = async function (txDetails) {
+    
     let payload = {
         "username": "ZZ Whale Watcher",
         "content": "",
@@ -89,20 +96,26 @@ const parseData = async function (pair, size, txhash) {
                     "url": "https://trade.zigzag.exchange/"
                 },
                 "title": `🐋 Whale Sighting 🔍`,
-                "url": `https://zkscan.io/explorer/transactions/${txhash}`,
+                "url": `https://zkscan.io/explorer/transactions/${txDetails.hash}`,
 
                 "color": 15258703,
                 "fields": [
                     {
                         "name": "💸 **Pair** 💎",
-                        "value": `${pair}`,
+                        "value": `${txDetails.pair}`,
+                        "inline": true
+                    },
+                    {
+                        "name": "💰 **Type** 💵",
+                        "value": `${txDetails.type}`,
                         "inline": true
                     },
                     {
                         "name": "💰 **Size** 💵",
-                        "value": `${size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`,
+                        "value": `${txDetails.size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`,
                         "inline": true
                     }
+
 
                 ],
                 "footer": {
