@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bottleneck": "^2.19.5",
     "dotenv": "^16.0.0",
     "ws": "^8.5.0"
   }
