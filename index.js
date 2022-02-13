@@ -299,7 +299,7 @@ async function handleMessage(json) {
         limiter.schedule(() => {
             getTxDetails(msg.args)
                 .then(res => {
-                    if (res.hash) {
+                    if (res) {
                         // console.log('calling webhook from orderreceipt')
                         parseData(res)
                     }
@@ -356,7 +356,7 @@ const parseData = async function (txDetails) {
                             "inline": true
                         },
                         {
-                            "name": "💰 **Type** 💵",
+                            "name": "📉 **Type** 📈",
                             "value": `${txDetails.type}`,
                             "inline": true
                         },
