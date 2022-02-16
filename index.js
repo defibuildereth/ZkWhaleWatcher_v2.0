@@ -367,7 +367,7 @@ const parseData = async function (txDetails) {
                         }
                     ],
                     "footer": {
-                        "text": "Made by @DefiBuilderETH, powered by ZkSync API",
+                        "text": "Made by @DefiBuilderETH, powered by ZigZag",
                         "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1200px-Twitter-logo.svg.png"
                     }
                 }
