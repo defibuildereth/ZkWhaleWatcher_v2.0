@@ -333,6 +333,18 @@ const getTxDetails = async function (tx) {
 }
 
 const parseData = async function (txDetails) {
+    let emojiArray = []
+    let colours;
+
+    if (txDetails.type == "Buy") {
+        emojiArray.push("💎", "🤲", "🚀", "🌕", "🐂", "📈", "💰", "🏦" );
+        colours = 65310
+    } else {
+        emojiArray.push("🧻","🤲", "🤦‍♂️", "🚨", "🐻", "📉", "💸", "🚽" );
+        colours = 16711680
+
+    }
+
 
     if (txDetails.size > 1) {
 
@@ -345,23 +357,23 @@ const parseData = async function (txDetails) {
                         "name": "ZigZag Exchange",
                         "url": "https://trade.zigzag.exchange/"
                     },
-                    "title": `🐋 Whale Sighting 🔍`,
+                    "title": `🐋🔍 Whale Sighting ${emojiArray[0]}${emojiArray[1]}`,
                     "url": `https://zkscan.io/explorer/transactions/${txDetails.hash}`,
 
-                    "color": 15258703,
+                    "color": colours,
                     "fields": [
                         {
-                            "name": "💸 **Pair** 💎",
+                            "name": `${emojiArray[4]}**Pair**${emojiArray[5]}`,
                             "value": `${txDetails.pair}`,
                             "inline": true
                         },
                         {
-                            "name": "📉 **Type** 📈",
+                            "name": `${emojiArray[2]}**Type**${emojiArray[3]}`,
                             "value": `${txDetails.type}`,
                             "inline": true
                         },
                         {
-                            "name": "💰 **Size** 💵",
+                            "name": `${emojiArray[6]}**Size**${emojiArray[7]}`,
                             "value": `${txDetails.size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`,
                             "inline": true
                         }
