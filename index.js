@@ -69,7 +69,7 @@ async function handleMessage(json) {
             getTxDetails(msg.args)
                 .then(res => {
                     if (res) {
-                        parseTweet(res)
+                        sendTweet(res)
                     }
                 })
         })
@@ -100,15 +100,10 @@ const getTxDetails = async function (tx) {
     return txDetails
 }
 
-const parseTweet = async function (details) {
-    const text = details.hash
-    sendTweet(text)
-}
-
-const sendTweet = async function (hash) {
+const sendTweet = async function (details) {
 
     var data = JSON.stringify({
-        "text": `${hash}`
+        "text": `Pair: ${details.pair} \nSide: ${details.type} \nSize: ${details.size} \n\nhttps://zkscan.io/explorer/transactions/${details.hash}`
     });
 
     var config = {
