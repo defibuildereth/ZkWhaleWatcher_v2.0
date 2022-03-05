@@ -10,6 +10,11 @@ const limiter = new Bottleneck({
     minTime: 500
 });
 
+const twitter = new Bottleneck({
+    maxConcurrent: 1,
+    minTime: 1000
+})
+
 let webhook = process.env.WEBHOOK
 let zigzagws = new WebSocket(process.env.WEBSOCKET)
 
@@ -19,7 +24,7 @@ function onWsOpen() {
     console.log('connected')
     zigzagws.on('message', handleMessage);
     zigzagws.on('close', onWsClose);
-    zigzagws.send(JSON.stringify({'op':'marketsreq', 'args':[1, true]}));
+    zigzagws.send(JSON.stringify({ 'op': 'marketsreq', 'args': [1, true] }));
 
 }
 
@@ -38,8 +43,8 @@ async function handleMessage(json) {
 
     if (msg.op == 'marketinfo2') {
         for (let i = 0; i < msg.args[0].length; i++) {
-            zigzagws.send(JSON.stringify({"op":"subscribemarket","args":[1, msg.args[0][i].alias]}));
-        }        
+            zigzagws.send(JSON.stringify({ "op": "subscribemarket", "args": [1, msg.args[0][i].alias] }));
+        }
     }
 
     if (msg.op == 'orderstatus') {
@@ -52,11 +57,19 @@ async function handleMessage(json) {
     }
 
     if (msg.op == 'orderreceipt') {
-        limiter.schedule(() => {
+        // limiter.schedule(() => {
+        //     getTxDetails(msg.args)
+        //         .then(res => {
+        //             if (res) {
+        //                 parseData(res)
+        //             }
+        //         })
+        // })
+        twitter.schedule(() => {
             getTxDetails(msg.args)
                 .then(res => {
                     if (res) {
-                        parseData(res)
+                        parseTweet(res)
                     }
                 })
         })
@@ -87,15 +100,47 @@ const getTxDetails = async function (tx) {
     return txDetails
 }
 
+const parseTweet = async function (details) {
+    const text = details.hash
+    sendTweet(text)
+}
+
+const sendTweet = async function (hash) {
+
+    var data = JSON.stringify({
+        "text": `${hash}`
+    });
+
+    var config = {
+        method: 'post',
+        url: 'https://api.twitter.com/2/tweets',
+        headers: {
+            'Authorization': 'OAuth oauth_consumer_key="ttnDRxWc01nK0V9LQjDeTxwJ6",oauth_token="1499223809420926982-0xXJ7QZAfREofBNFQtGq2KOPaWuH6g",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1646510628",oauth_nonce="Dfw4PhtmyxR",oauth_version="1.0",oauth_signature="SWz%2BrVDvcRSvI6KU7G0eiGo84L8%3D"',
+            'Content-Type': 'application/json',
+            'Cookie': 'guest_id=v1%3A164565039285370727'
+        },
+        data: data
+    };
+
+    axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+}
+
 const parseData = async function (txDetails) {
     let emojiArray = []
     let colours;
 
     if (txDetails.type == "Buy") {
-        emojiArray.push("💎", "🤲", "🚀", "🌕", "🐂", "📈", "💰", "🏦" );
+        emojiArray.push("💎", "🤲", "🚀", "🌕", "🐂", "📈", "💰", "🏦");
         colours = 65310
     } else {
-        emojiArray.push("🧻","🤲", "🤦‍♂️", "🚨", "🐻", "📉", "💸", "🚽" );
+        emojiArray.push("🧻", "🤲", "🤦‍♂️", "🚨", "🐻", "📉", "💸", "🚽");
         colours = 16711680
     }
 
