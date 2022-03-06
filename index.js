@@ -17,6 +17,7 @@ const twitter = new Bottleneck({
 
 let webhook = process.env.WEBHOOK
 let zigzagws = new WebSocket(process.env.WEBSOCKET)
+let auth = process.env.AUTH
 
 zigzagws.on('open', onWsOpen);
 
@@ -69,7 +70,9 @@ async function handleMessage(json) {
             getTxDetails(msg.args)
                 .then(res => {
                     if (res) {
-                        sendTweet(res)
+                        if (res.size > 25000) {
+                            sendTweet(res)
+                        }
                     }
                 })
         })
@@ -103,7 +106,7 @@ const getTxDetails = async function (tx) {
 const sendTweet = async function (details) {
 
     var data = JSON.stringify({
-        "text": `Pair: ${details.pair} \nSide: ${details.type} \nSize: ${details.size} \n\nhttps://zkscan.io/explorer/transactions/${details.hash}`
+        "text": `Pair: ${details.pair} \nSide: ${details.type} \nSize: ${details.size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} \n\nhttps://zkscan.io/explorer/transactions/${details.hash}`
     });
 
     var config = {
