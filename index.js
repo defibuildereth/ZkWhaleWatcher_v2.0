@@ -2,6 +2,7 @@ import WebSocket from 'ws';
 import dotenv from 'dotenv';
 import axios from 'axios';
 import Bottleneck from "bottleneck";
+import Twit from 'twit';
 
 dotenv.config()
 
@@ -17,7 +18,14 @@ const twitter = new Bottleneck({
 
 let webhook = process.env.WEBHOOK
 let zigzagws = new WebSocket(process.env.WEBSOCKET)
-let auth = process.env.AUTH
+
+let T = new Twit({
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token: process.env.ACCESS_TOKEN,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+    timeout_ms: 60 * 1000
+})
 
 zigzagws.on('open', onWsOpen);
 
@@ -70,9 +78,9 @@ async function handleMessage(json) {
             getTxDetails(msg.args)
                 .then(res => {
                     if (res) {
-                        if (res.size > 25000) {
-                            sendTweet(res)
-                        }
+                        // if (res.size > 25000) {
+                        sendTweet(res)
+                        // }
                     }
                 })
         })
@@ -84,7 +92,7 @@ const getTxDetails = async function (tx) {
     if (tx[9] == 'r') {
         return
     }
-    console.log(tx)
+    // console.log(tx)
     let txHash = tx[11]
     let buySell;
     let txType = tx[3]
@@ -105,28 +113,32 @@ const getTxDetails = async function (tx) {
 
 const sendTweet = async function (details) {
 
-    var data = JSON.stringify({
-        "text": `Pair: ${details.pair} \nSide: ${details.type} \nSize: ${details.size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} \n\nhttps://zkscan.io/explorer/transactions/${details.hash}`
-    });
+    
+    // var data = JSON.stringify({
+    //     "text": `Pair: ${details.pair} \nSide: ${details.type} \nSize: ${details.size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} \n\nhttps://zkscan.io/explorer/transactions/${details.hash}`
+    // });
 
-    var config = {
-        method: 'post',
-        url: 'https://api.twitter.com/2/tweets',
-        headers: {
-            'Authorization': 'OAuth oauth_consumer_key="ttnDRxWc01nK0V9LQjDeTxwJ6",oauth_token="1499223809420926982-0xXJ7QZAfREofBNFQtGq2KOPaWuH6g",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1646510628",oauth_nonce="Dfw4PhtmyxR",oauth_version="1.0",oauth_signature="SWz%2BrVDvcRSvI6KU7G0eiGo84L8%3D"',
-            'Content-Type': 'application/json',
-            'Cookie': 'guest_id=v1%3A164565039285370727'
-        },
-        data: data
-    };
+    // var config = {
+    //     method: 'post',
+    //     url: 'https://api.twitter.com/2/tweets',
+    //     headers: {
+    //         'Authorization': 'OAuth oauth_consumer_key="ttnDRxWc01nK0V9LQjDeTxwJ6",oauth_token="1499223809420926982-0xXJ7QZAfREofBNFQtGq2KOPaWuH6g",oauth_signature_method="HMAC-SHA1"',
+    //         'Content-Type': 'application/json',
+    //         'Cookie': 'guest_id=v1%3A164565039285370727'
+    //     },
+    //     data: data
+    // };
 
-    axios(config)
-        .then(function (response) {
-            console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    // axios(config)
+    //     .then(function (response) {
+    //         console.log(JSON.stringify(response.data));
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
+    T.post('statuses/update', { status: 'hello world!' }, function (err, data, response) {
+        console.log(data)
+    })
 
 }
 
