@@ -78,9 +78,9 @@ async function handleMessage(json) {
             getTxDetails(msg.args)
                 .then(res => {
                     if (res) {
-                        // if (res.size > 25000) {
-                        sendTweet(res)
-                        // }
+                        if (res.size > 25000) {
+                            sendTweet(res)
+                        }
                     }
                 })
         })
@@ -113,33 +113,17 @@ const getTxDetails = async function (tx) {
 
 const sendTweet = async function (details) {
 
-    
-    // var data = JSON.stringify({
-    //     "text": `Pair: ${details.pair} \nSide: ${details.type} \nSize: ${details.size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} \n\nhttps://zkscan.io/explorer/transactions/${details.hash}`
-    // });
+    let emojiArray = []
 
-    // var config = {
-    //     method: 'post',
-    //     url: 'https://api.twitter.com/2/tweets',
-    //     headers: {
-    //         'Authorization': 'OAuth oauth_consumer_key="ttnDRxWc01nK0V9LQjDeTxwJ6",oauth_token="1499223809420926982-0xXJ7QZAfREofBNFQtGq2KOPaWuH6g",oauth_signature_method="HMAC-SHA1"',
-    //         'Content-Type': 'application/json',
-    //         'Cookie': 'guest_id=v1%3A164565039285370727'
-    //     },
-    //     data: data
-    // };
+    if (details.type == "Buy") {
+        emojiArray.push("💎", "🤲", "🚀", "🌕", "🐂", "📈", "💰", "🏦");
+    } else {
+        emojiArray.push("🧻", "🤲", "🤦‍♂️", "🚨", "🐻", "📉", "💸", "🚽");
+    }
 
-    // axios(config)
-    //     .then(function (response) {
-    //         console.log(JSON.stringify(response.data));
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
-    T.post('statuses/update', { status: 'hello world!' }, function (err, data, response) {
-        console.log(data)
+    T.post('statuses/update', { status: `🐋🔍 Whale Sighting ${emojiArray[0]}${emojiArray[1]} \n\n${emojiArray[4]}Pair${emojiArray[5]} : ${details.pair} \n${emojiArray[2]}Side${emojiArray[3]} : ${details.type} \n${emojiArray[6]}Size${emojiArray[7]} : ${details.size.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} \n\nhttps://zkscan.io/explorer/transactions/${details.hash} \n\n@ZigZagExchange` }, function (err, data, response) {
+        console.log(data.text)
     })
-
 }
 
 const parseData = async function (txDetails) {
